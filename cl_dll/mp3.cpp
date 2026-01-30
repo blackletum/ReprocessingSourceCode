@@ -33,7 +33,8 @@ int CMP3::Initialize()
 		(FARPROC&)SVL = GetProcAddress(m_hFMod, "_FSOUND_SetVolume@8");
 		(FARPROC&)SCP = GetProcAddress(m_hFMod, "_FSOUND_Stream_SetTime@8");
 		(FARPROC&)GCP = GetProcAddress(m_hFMod, "_FSOUND_Stream_GetTime@4");
-		if (!(SCL && SOP && SBS && SDRV && INIT && (SOF || SO) && SPLAY && CLOSE && SVL && SCP && GCP))
+		(FARPROC&)SP = GetProcAddress(m_hFMod, "_FSOUND_SetPaused@8");
+		if (!(SCL && SOP && SBS && SDRV && INIT && (SOF || SO) && SPLAY && CLOSE && SVL && SCP && GCP && SP))
 		{
 			FreeLibrary(m_hFMod);
 			gEngfuncs.Con_Printf("Fatal Error: FMOD functions couldn't be loaded!\n");
@@ -88,6 +89,16 @@ bool CMP3::Update()
 		//}
 	}
 	return true;
+}
+
+void CMP3::PauseMP3(bool pause)
+{
+	if (m_iIsPlaying && pause != m_bPaused)
+	{
+		//gEngfuncs.Con_Printf("paused mus %d\n", pause);
+		SP(0, pause);
+		m_bPaused = pause;
+	}
 }
 
 int CMP3::PlayMP3(const char *pszSong)

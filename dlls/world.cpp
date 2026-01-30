@@ -167,15 +167,19 @@ void CDecal::StaticDecal()
 	TraceResult trace;
 	int entityIndex, modelIndex;
 
-	UTIL_TraceLine(pev->origin - Vector(5, 5, 5), pev->origin + Vector(5, 5, 5), ignore_monsters, ENT(pev), &trace);
+	Vector position = pev->origin;
+	UTIL_TraceLine(pev->origin - Vector(5, 5, 5), position + Vector(5, 5, 5), ignore_monsters, ENT(pev), &trace);
 
 	entityIndex = (short)ENTINDEX(trace.pHit);
 	if (0 != entityIndex)
+	{
 		modelIndex = (int)VARS(trace.pHit)->modelindex;
+		position = position - trace.pHit->v.origin;
+	}
 	else
 		modelIndex = 0;
 
-	g_engfuncs.pfnStaticDecal(pev->origin, (int)pev->skin, entityIndex, modelIndex);
+	g_engfuncs.pfnStaticDecal(position, (int)pev->skin, entityIndex, modelIndex);
 
 	SUB_Remove();
 }

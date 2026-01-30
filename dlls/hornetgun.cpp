@@ -178,6 +178,15 @@ void CHgun::PrimaryAttack()
 	// player "shoot" animation
 	m_pPlayer->SetAnimation(PLAYER_ATTACK1);
 
+	if (!FBitSet(m_pPlayer->pev->flags, FL_ONGROUND))
+		KickBack(1.8, 0.65, 0.45, 0.125, 5.0, 3.5, 8);
+	else if (m_pPlayer->pev->velocity.Length2D() > 0)
+		KickBack(1.1, 0.5, 0.3, 0.06, 4.0, 3.0, 8);
+	else if (FBitSet(m_pPlayer->pev->flags, FL_DUCKING))
+		KickBack(0.75, 0.325, 0.25, 0.025, 3.5, 2.5, 9);
+	else
+		KickBack(0.8, 0.35, 0.3, 0.03, 3.75, 3.0, 9);
+
 	m_flNextPrimaryAttack = GetNextAttackDelay(0.12);
 
 	if (m_flNextPrimaryAttack < UTIL_WeaponTimeBase())

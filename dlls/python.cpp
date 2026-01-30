@@ -214,6 +214,7 @@ void CPython::PrimaryAttack()
 		m_flNextPrimaryAttack = 0.75;
 	else
 		m_flNextPrimaryAttack = 0.45;
+	m_pPlayer->pev->punchangle.x -= 2;
 	m_flTimeWeaponIdle = UTIL_SharedRandomFloat(m_pPlayer->random_seed, 10, 15);
 }
 

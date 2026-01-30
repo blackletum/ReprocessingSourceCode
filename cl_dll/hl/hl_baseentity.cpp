@@ -331,6 +331,7 @@ bool CBasePlayerWeapon::UpdateClientData(CBasePlayer* pPlayer) { return false; }
 bool CBasePlayerWeapon::IsUseable() { return true; }
 int CBasePlayerWeapon::PrimaryAmmoIndex() { return m_iPrimaryAmmoType; }
 int CBasePlayerWeapon::SecondaryAmmoIndex() { return m_iSecondaryAmmoType; }
+void CBasePlayerWeapon::KickBack(float up_base, float lateral_base, float up_modifier, float lateral_modifier, float up_max, float lateral_max, int direction_change) { }
 void CBasePlayerAmmo::Spawn() {}
 CBaseEntity* CBasePlayerAmmo::Respawn() { return this; }
 void CBasePlayerAmmo::Materialize() {}

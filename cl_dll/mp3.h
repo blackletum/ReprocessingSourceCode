@@ -30,13 +30,13 @@ private:
 	signed char(_stdcall * SVL)		(int channel, int vol);
 	signed char(_stdcall * SCP)		(FSOUND_STREAM *stream, unsigned int ms);
 	int(_stdcall * GCP)				(FSOUND_STREAM *stream);
+	signed char(_stdcall * SP)		(int channel, signed char paused);
 	FSOUND_STREAM*		(_stdcall * SOF)	(const char *filename, unsigned int mode, int memlength);				//AJH old fmod
 	FSOUND_STREAM*		(_stdcall * SO)	(const char *filename, unsigned int mode, int offset, int memlength);	//AJH use new fmod
 	int(_stdcall * SPLAY)	(int channel, FSOUND_STREAM *stream);
 	void(_stdcall * CLOSE)	(void);
 
 	FSOUND_STREAM  *m_Stream;
-	int		m_iIsPlaying;
 	HINSTANCE	m_hFMod;
 
 public:
@@ -44,7 +44,11 @@ public:
 	int		Shutdown();
 	int		PlayMP3(const char *pszSong);
 	int		StopMP3();
+	void	PauseMP3(bool pause);
 	bool 	Update(void);
+	float	fMp3time;
+	int		m_iIsPlaying;
+	bool	m_bPaused;
 };
 
 extern CMP3 gMP3;

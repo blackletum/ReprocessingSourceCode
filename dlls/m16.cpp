@@ -152,6 +152,15 @@ void CM16::PrimaryAttack()
 		// HEV suit - indicate out of ammo condition
 		m_pPlayer->SetSuitUpdate("!HEV_AMO0", false, 0);
 
+	if (m_pPlayer->pev->velocity.Length2D() > 0)
+		KickBack(1.0, 0.45, 0.28, 0.045, 3.75, 3.0, 7);
+	else if (!FBitSet(m_pPlayer->pev->flags, FL_ONGROUND))
+		KickBack(1.2, 0.5, 0.23, 0.15, 5.5, 3.5, 6);
+	else if (FBitSet(m_pPlayer->pev->flags, FL_DUCKING))
+		KickBack(0.6, 0.3, 0.2, 0.0125, 3.25, 2.0, 7);
+	else
+		KickBack(0.65, 0.35, 0.25, 0.015, 3.5, 2.25, 7);
+
 	if (m_iClip % 3 != 0)
 	{
 		m_flNextPrimaryAttack = GetNextAttackDelay(0.06);

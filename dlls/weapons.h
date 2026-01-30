@@ -341,6 +341,9 @@ public:
 	bool UpdateClientData(CBasePlayer* pPlayer) override; // sends hud info to client dll, if things have changed
 	void RetireWeapon();
 
+	// cs-inspired recoil
+	void KickBack(float up_base, float lateral_base, float up_modifier, float lateral_modifier, float up_max, float lateral_max, int direction_change);
+
 	// Can't use virtual functions as think functions so this wrapper is needed.
 	void EXPORT CallDoRetireWeapon()
 	{
@@ -371,6 +374,10 @@ public:
 	int m_iClientClip;			   // the last version of m_iClip sent to hud dll
 	int m_iClientWeaponState;	   // the last version of the weapon state sent to hud dll (is current weapon, is on target)
 	bool m_fInReload;			   // Are we in the middle of a reload;
+
+	// cs-inspired recoil
+	int m_iShotsFired;
+	int m_iDirection;
 
 	int m_iDefaultAmmo; // how much ammo you get when you pick up this weapon as placed by a level designer.
 

@@ -874,6 +874,46 @@ bool CBasePlayerWeapon::DefaultDeploy(const char* szViewModel, const char* szWea
 	return true;
 }
 
+// cs-inspired recoil
+void CBasePlayerWeapon::KickBack(float up_base, float lateral_base, float up_modifier, float lateral_modifier, float up_max, float lateral_max, int direction_change)
+{
+	float flFront, flSide;
+
+	if (m_iShotsFired == 1)
+	{
+		flFront = up_base;
+		flSide = lateral_base;
+	}
+	else
+	{
+		flFront = m_iShotsFired * up_modifier + up_base;
+		flSide = m_iShotsFired * lateral_modifier + lateral_base;
+	}
+
+	m_pPlayer->pev->punchangle.x -= flFront;
+
+	if (m_pPlayer->pev->punchangle.x < -up_max)
+		m_pPlayer->pev->punchangle.x = -up_max;
+
+	if (m_iDirection == 1)
+	{
+		m_pPlayer->pev->punchangle.y += flSide;
+
+		if (m_pPlayer->pev->punchangle.y > lateral_max)
+			m_pPlayer->pev->punchangle.y = lateral_max;
+	}
+	else
+	{
+		m_pPlayer->pev->punchangle.y -= flSide;
+
+		if (m_pPlayer->pev->punchangle.y < -lateral_max)
+			m_pPlayer->pev->punchangle.y = -lateral_max;
+	}
+
+	if (!RANDOM_LONG(0, direction_change))
+		m_iDirection = !m_iDirection;
+}
+
 bool CBasePlayerWeapon::PlayEmptySound()
 {
 	if (m_iPlayEmptySound)

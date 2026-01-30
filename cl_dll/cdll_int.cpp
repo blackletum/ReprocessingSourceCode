@@ -262,6 +262,16 @@ void DLLEXPORT HUD_Frame(double time)
 		gEngfuncs.Cvar_SetValue("cl_lw", 0.0f);
 	}
 
+	if (gEngfuncs.GetClientTime() == gMP3.fMp3time && !gMP3.m_bPaused)
+	{
+		gMP3.PauseMP3(1);
+	}
+	else if (gEngfuncs.GetClientTime() != gMP3.fMp3time && gMP3.m_bPaused)
+	{
+		gMP3.PauseMP3(0);
+	}
+	gMP3.fMp3time = gEngfuncs.GetClientTime();
+
 	//	RecClHudFrame(time);
 
 	GetClientVoiceMgr()->Frame(time);

@@ -158,6 +158,11 @@ void CShotgun::PrimaryAttack()
 	//if (m_iClip != 0)
 	m_flPumpTime = gpGlobals->time + 0.5;
 
+	if (m_pPlayer->pev->flags & FL_ONGROUND)
+		m_pPlayer->pev->punchangle.x -= UTIL_SharedRandomLong(m_pPlayer->random_seed + 1, 3, 5);
+	else
+		m_pPlayer->pev->punchangle.x -= UTIL_SharedRandomLong(m_pPlayer->random_seed + 1, 7, 10);
+
 	m_flNextPrimaryAttack = GetNextAttackDelay(0.75);
 	m_flNextSecondaryAttack = UTIL_WeaponTimeBase() + 0.75;
 	if (m_iClip != 0)
@@ -236,6 +241,11 @@ void CShotgun::SecondaryAttack()
 
 	//if (m_iClip != 0)
 	m_flPumpTime = gpGlobals->time + 0.95;
+
+	if (m_pPlayer->pev->flags & FL_ONGROUND)
+		m_pPlayer->pev->punchangle.x -= UTIL_SharedRandomLong(m_pPlayer->random_seed + 1, 4, 6);
+	else
+		m_pPlayer->pev->punchangle.x -= UTIL_SharedRandomLong(m_pPlayer->random_seed + 1, 8, 11);
 
 	m_flNextPrimaryAttack = GetNextAttackDelay(1.5);
 	m_flNextSecondaryAttack = UTIL_WeaponTimeBase() + 1.5;
