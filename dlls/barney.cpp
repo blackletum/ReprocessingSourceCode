@@ -1227,7 +1227,7 @@ void CEvilBarney::Killed(entvars_t* pevAttacker, int iGib)
 		GetAttachment(0, vecGunPos, vecGunAngles);
 
 		if (pev->weapons != 1)
-			CBaseEntity* pGun = DropItem("weapon_python", vecGunPos, vecGunAngles);
+			CBaseEntity* pGun = DropItem("weapon_357", vecGunPos, vecGunAngles);
 		else
 			CBaseEntity* pGun = DropItem("weapon_9mmhandgun", vecGunPos, vecGunAngles);
 	}
@@ -1304,16 +1304,17 @@ public:
 	bool Restore(CRestore& restore) override;
 	static TYPEDESCRIPTION m_SaveData[];
 
-	int m_iPose, m_iframe = -1; // which sequence to display	-- temporary, don't need to save
+	int m_iPose, m_iframe = 255; // which sequence to display	-- temporary, don't need to save
 	int m_iClassify = CLASS_PLAYER_ALLY, m_iBlood = BLOOD_COLOR_RED, m_iGib = 1;
 };
 
 TYPEDESCRIPTION CDeadMonster::m_SaveData[] =
 {
-	DEFINE_FIELD(CDeadMonster, m_iPose, FIELD_INTEGER),
-	DEFINE_FIELD(CDeadMonster, m_iframe, FIELD_INTEGER),
+	//DEFINE_FIELD(CDeadMonster, m_iPose, FIELD_INTEGER),
+	//DEFINE_FIELD(CDeadMonster, m_iframe, FIELD_INTEGER),
 	DEFINE_FIELD(CDeadMonster, m_iClassify, FIELD_INTEGER),
 	DEFINE_FIELD(CDeadMonster, m_iBlood, FIELD_INTEGER),
+	DEFINE_FIELD(CDeadMonster, m_iGib, FIELD_INTEGER),
 };
 
 IMPLEMENT_SAVERESTORE(CDeadMonster, CBaseMonster);
@@ -1397,6 +1398,8 @@ void CDeadMonster::Spawn()
 	pev->sequence = 0;
 	m_bloodColor = m_iBlood;
 
+	MonsterInitDead();
+
 	pev->sequence = m_iPose;
 	if (pev->sequence == -1)
 	{
@@ -1404,8 +1407,6 @@ void CDeadMonster::Spawn()
 	}
 	// Corpses have less health
 	pev->health = 8; //gSkillData.barneyHealth;
-
-	MonsterInitDead();
 
 	if (!m_iGib)
 	{
