@@ -166,7 +166,7 @@ void CRevolver::Reload()
 		SecondaryAttack();
 	}
 
-	if (DefaultReload(6, REVOLVER_RELOAD, 1.5))
+	if (DefaultReload(6, REVOLVER_RELOAD, 3.2))
 	{
 		EMIT_SOUND_DYN(ENT(m_pPlayer->pev), CHAN_ITEM, "weapons/python_reload1.wav", RANDOM_FLOAT(0.95, 1.0), ATTN_NORM, 0, 93 + RANDOM_LONG(0, 0xF));
 	}

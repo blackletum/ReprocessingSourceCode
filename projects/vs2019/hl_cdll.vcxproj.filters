@@ -339,6 +339,12 @@
     <ClCompile Include="..\..\dlls\revolver.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cl_dll\unicode.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl_dll\vgui_screenmsg.cpp">
+      <Filter>Source Files\cl_dll</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cl_dll\kbutton.h">
@@ -627,6 +633,18 @@
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cl_dll\vgui_subtitles.h">
+      <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\unicode.h">
+      <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\getfont.h">
+      <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\vgui_shadowtext.h">
+      <Filter>Header Files\cl_dll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cl_dll\vgui_screenmsg.h">
       <Filter>Header Files\cl_dll</Filter>
     </ClInclude>
   </ItemGroup>

@@ -216,6 +216,7 @@ cmd /c ""$(ProjectDir)..\..\filecopy.bat" "$(SolutionDir)../../network" "" "delt
     <ClCompile Include="..\..\cl_dll\text_message.cpp" />
     <ClCompile Include="..\..\cl_dll\train.cpp" />
     <ClCompile Include="..\..\cl_dll\tri.cpp" />
+    <ClCompile Include="..\..\cl_dll\unicode.cpp" />
     <ClCompile Include="..\..\cl_dll\util.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui_ClassMenu.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui_CustomObjects.cpp" />
@@ -223,6 +224,7 @@ cmd /c ""$(ProjectDir)..\..\filecopy.bat" "$(SolutionDir)../../network" "" "delt
     <ClCompile Include="..\..\cl_dll\vgui_MOTDWindow.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui_SchemeManager.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui_ScorePanel.cpp" />
+    <ClCompile Include="..\..\cl_dll\vgui_screenmsg.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui_SpectatorPanel.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui_subtitles.cpp" />
     <ClCompile Include="..\..\cl_dll\vgui_TeamFortressViewport.cpp" />
@@ -276,6 +278,7 @@ cmd /c ""$(ProjectDir)..\..\filecopy.bat" "$(SolutionDir)../../network" "" "delt
     <ClInclude Include="..\..\cl_dll\fmod.h" />
     <ClInclude Include="..\..\cl_dll\fmod_errors.h" />
     <ClInclude Include="..\..\cl_dll\GameStudioModelRenderer.h" />
+    <ClInclude Include="..\..\cl_dll\getfont.h" />
     <ClInclude Include="..\..\cl_dll\health.h" />
     <ClInclude Include="..\..\cl_dll\hud.h" />
     <ClInclude Include="..\..\cl_dll\hud_spectator.h" />
@@ -292,9 +295,12 @@ cmd /c ""$(ProjectDir)..\..\filecopy.bat" "$(SolutionDir)../../network" "" "delt
     <ClInclude Include="..\..\cl_dll\particleman\CMiniMem.h" />
     <ClInclude Include="..\..\cl_dll\StudioModelRenderer.h" />
     <ClInclude Include="..\..\cl_dll\tri.h" />
+    <ClInclude Include="..\..\cl_dll\unicode.h" />
     <ClInclude Include="..\..\cl_dll\vgui_int.h" />
     <ClInclude Include="..\..\cl_dll\vgui_SchemeManager.h" />
     <ClInclude Include="..\..\cl_dll\vgui_ScorePanel.h" />
+    <ClInclude Include="..\..\cl_dll\vgui_screenmsg.h" />
+    <ClInclude Include="..\..\cl_dll\vgui_shadowtext.h" />
     <ClInclude Include="..\..\cl_dll\vgui_SpectatorPanel.h" />
     <ClInclude Include="..\..\cl_dll\vgui_subtitles.h" />
     <ClInclude Include="..\..\cl_dll\view.h" />

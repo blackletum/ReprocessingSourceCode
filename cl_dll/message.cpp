@@ -27,6 +27,8 @@
 DECLARE_MESSAGE(m_Message, HudText)
 DECLARE_MESSAGE(m_Message, GameTitle)
 
+void VGuiAddScreenMessage(client_textmessage_t *msg); // buz
+
 // 1 Global client_textmessage_t for custom messages that aren't in the titles.txt
 client_textmessage_t g_pCustomMessage;
 const char* g_pCustomName = "Custom";
@@ -453,6 +455,8 @@ void CHudMessage::MessageAdd(const char* pName, float time)
 
 				tempMessage = &g_pCustomMessage;
 			}
+			VGuiAddScreenMessage(tempMessage);
+			return;
 
 			for (j = 0; j < maxHUDMessages; j++)
 			{

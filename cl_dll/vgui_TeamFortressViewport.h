@@ -23,6 +23,7 @@
 
 // custom scheme handling
 #include "vgui_SchemeManager.h"
+#include "vgui_screenmsg.h"
 #include "vgui_subtitles.h"
 
 
@@ -634,6 +635,7 @@ public:
 	SpectatorPanel *		m_pSpectatorPanel;
 	char			m_szServerName[ MAX_SERVERNAME_LENGTH ];
 	CSubtitle*		m_pSubtitle;
+	CScreenMessage* m_pScreenMsg;
 };
 
 //============================================================

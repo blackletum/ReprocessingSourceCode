@@ -521,6 +521,7 @@ TeamFortressViewport::TeamFortressViewport(int x, int y, int wide, int tall) : P
 	m_pCurrentMenu = NULL;
 	m_pCurrentCommandMenu = NULL;
 	m_pSubtitle = NULL;
+	m_pScreenMsg = NULL;
 
 	Initialize();
 	addInputSignal(new CViewPortInputHandler);
@@ -533,6 +534,10 @@ TeamFortressViewport::TeamFortressViewport(int x, int y, int wide, int tall) : P
 	m_pSubtitle->setParent(this);
 	m_pSubtitle->setVisible(false);
 	SubtitleInit();
+
+	// buz
+	m_pScreenMsg = new CScreenMessage();
+	m_pScreenMsg->setParent(this);
 
 	// primary text color
 	// Get the colors
@@ -635,6 +640,9 @@ void TeamFortressViewport::Initialize()
 	{
 		m_pSubtitle->Initialize();
 	}
+
+	if (m_pScreenMsg)
+		m_pScreenMsg->Initialize(); // buz
 
 	// Make sure all menus are hidden
 	HideVGUIMenu();

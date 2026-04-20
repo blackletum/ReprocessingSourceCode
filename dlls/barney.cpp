@@ -1428,8 +1428,11 @@ public:
 	void Precache() override;
 	bool TakeDamage(entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage, int bitsDamageType) override;
 
+	void DeclineFollowing() override;
+
 	void AlertSound() override;
 	void PainSound() override {};
+	void DeathSound() override;
 	Schedule_t* GetSchedule() override;
 
 	void TalkInit();
@@ -1498,13 +1501,7 @@ void CWashington::Precache()
 	PRECACHE_SOUND("barney/ba_attack1.wav");
 	PRECACHE_SOUND("barney/ba_attack2.wav");
 
-	PRECACHE_SOUND("barney/ba_pain1.wav");
-	PRECACHE_SOUND("barney/ba_pain2.wav");
-	PRECACHE_SOUND("barney/ba_pain3.wav");
-
-	PRECACHE_SOUND("barney/ba_die1.wav");
-	PRECACHE_SOUND("barney/ba_die2.wav");
-	PRECACHE_SOUND("barney/ba_die3.wav");
+	PRECACHE_SOUND("washington/t_death.wav");
 
 	// every new barney must call this, otherwise
 	// when a level is loaded, nobody will talk (time is reset to 0)
@@ -1520,32 +1517,37 @@ void CWashington::TalkInit()
 
 	// scientists speach group names (group names are in sentences.txt)
 
-	m_szGrp[TLK_ANSWER] = "BA_ANSWER";
-	m_szGrp[TLK_QUESTION] = "BA_QUESTION";
-	m_szGrp[TLK_IDLE] = "BA_IDLE";
-	m_szGrp[TLK_STARE] = "BA_STARE";
-	m_szGrp[TLK_USE] = "BA_OK";
-	m_szGrp[TLK_UNUSE] = "BA_WAIT";
-	m_szGrp[TLK_STOP] = "BA_STOP";
+	m_szGrp[TLK_ANSWER] = "WA_ANSWER";
+	m_szGrp[TLK_QUESTION] = "WA_QUESTION";
+	m_szGrp[TLK_IDLE] = "WA_IDLE";
+	m_szGrp[TLK_STARE] = "WA_STARE";
+	m_szGrp[TLK_USE] = "WA_OK";
+	m_szGrp[TLK_UNUSE] = "WA_WAIT";
+	m_szGrp[TLK_STOP] = "WA_STOP";
 
-	m_szGrp[TLK_NOSHOOT] = "BA_SCARED";
-	m_szGrp[TLK_HELLO] = "BA_HELLO";
+	m_szGrp[TLK_NOSHOOT] = "WA_SCARED";
+	m_szGrp[TLK_HELLO] = "WA_HELLO";
 
-	m_szGrp[TLK_PLHURT1] = "!BA_CUREA";
-	m_szGrp[TLK_PLHURT2] = "!BA_CUREB";
-	m_szGrp[TLK_PLHURT3] = "!BA_CUREC";
+	m_szGrp[TLK_PLHURT1] = "!WA_CUREA";
+	m_szGrp[TLK_PLHURT2] = "!WA_CUREB";
+	m_szGrp[TLK_PLHURT3] = "!WA_CUREC";
 
 	m_szGrp[TLK_PHELLO] = NULL;			  //"BA_PHELLO";		// UNDONE
 	m_szGrp[TLK_PIDLE] = NULL;			  //"BA_PIDLE";			// UNDONE
-	m_szGrp[TLK_PQUESTION] = "BA_PQUEST"; // UNDONE
+	m_szGrp[TLK_PQUESTION] = "WA_PQUEST"; // UNDONE
 
-	m_szGrp[TLK_SMELL] = "BA_SMELL";
+	m_szGrp[TLK_SMELL] = "WA_SMELL";
 
-	m_szGrp[TLK_WOUND] = "BA_WOUND";
-	m_szGrp[TLK_MORTAL] = "BA_MORTAL";
+	m_szGrp[TLK_WOUND] = "WA_WOUND";
+	m_szGrp[TLK_MORTAL] = "WA_MORTAL";
 
 	// get voice for head - just one barney voice for now
 	m_voicePitch = 100;
+}
+
+void CWashington::DeclineFollowing()
+{
+	PlaySentence("WA_POK", 2, VOL_NORM, ATTN_NORM);
 }
 
 //=========================================================
@@ -1557,9 +1559,17 @@ void CWashington::AlertSound()
 	{
 		if (FOkToSpeak())
 		{
-			PlaySentence("BA_ATTACK", RANDOM_FLOAT(2.8, 3.2), VOL_NORM, ATTN_IDLE);
+			PlaySentence("WA_ATTACK", RANDOM_FLOAT(2.8, 3.2), VOL_NORM, ATTN_IDLE);
 		}
 	}
+}
+
+//=========================================================
+// DeathSound
+//=========================================================
+void CWashington::DeathSound()
+{
+	EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "washington/t_death.wav", 1, ATTN_NORM, 0, GetVoicePitch());
 }
 
 //=========================================================
@@ -1570,7 +1580,81 @@ void CWashington::AlertSound()
 //=========================================================
 Schedule_t* CWashington::GetSchedule()
 {
-	return CBarney::GetSchedule();
+	if (HasConditions(bits_COND_HEAR_SOUND))
+	{
+		CSound* pSound;
+		pSound = PBestSound();
+
+		ASSERT(pSound != NULL);
+		if (pSound && (pSound->m_iType & bits_SOUND_DANGER) != 0)
+			return GetScheduleOfType(SCHED_TAKE_COVER_FROM_BEST_SOUND);
+	}
+	if (HasConditions(bits_COND_ENEMY_DEAD) && FOkToSpeak())
+	{
+		PlaySentence("WA_KILL", 4, VOL_NORM, ATTN_NORM);
+	}
+
+	switch (m_MonsterState)
+	{
+	case MONSTERSTATE_COMBAT:
+	{
+		// dead enemy
+		if (HasConditions(bits_COND_ENEMY_DEAD))
+		{
+			// call base class, all code to handle dead enemies is centralized there.
+			return CBaseMonster::GetSchedule();
+		}
+
+		// always act surprized with a new enemy
+		if (HasConditions(bits_COND_NEW_ENEMY) && HasConditions(bits_COND_LIGHT_DAMAGE))
+			return GetScheduleOfType(SCHED_SMALL_FLINCH);
+
+		// wait for one schedule to draw gun
+		if (!m_fGunDrawn)
+			return GetScheduleOfType(SCHED_ARM_WEAPON);
+
+		if (HasConditions(bits_COND_HEAVY_DAMAGE))
+			return GetScheduleOfType(SCHED_TAKE_COVER_FROM_ENEMY);
+	}
+	break;
+
+	case MONSTERSTATE_ALERT:
+	case MONSTERSTATE_IDLE:
+		if (HasConditions(bits_COND_LIGHT_DAMAGE | bits_COND_HEAVY_DAMAGE))
+		{
+			// flinch if hurt
+			return GetScheduleOfType(SCHED_SMALL_FLINCH);
+		}
+
+		if (m_hEnemy == NULL && IsFollowing())
+		{
+			if (!m_hTargetEnt->IsAlive())
+			{
+				// UNDONE: Comment about the recently dead player here?
+				StopFollowing(false);
+				break;
+			}
+			else
+			{
+				if (HasConditions(bits_COND_CLIENT_PUSH))
+				{
+					return GetScheduleOfType(SCHED_MOVE_AWAY_FOLLOW);
+				}
+				return GetScheduleOfType(SCHED_TARGET_FACE);
+			}
+		}
+
+		if (HasConditions(bits_COND_CLIENT_PUSH))
+		{
+			return GetScheduleOfType(SCHED_MOVE_AWAY);
+		}
+
+		// try to say something about smells
+		TrySmellTalk();
+		break;
+	}
+
+	return CTalkMonster::GetSchedule();
 }
 
 bool CWashington::TakeDamage(entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage, int bitsDamageType)
