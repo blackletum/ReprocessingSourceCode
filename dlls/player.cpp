@@ -1488,7 +1488,7 @@ void CBasePlayer::PlayerUse()
 				// if it's "hull" is in the view cone
 				vecLOS = UTIL_ClampVectorToBox(vecLOS, pObject->pev->size * 0.5);
 
-				if (FClassnameIs(pObject->pev, "func_button") && FBitSet(pObject->pev->spawnflags, 512)) // only for buttons
+				if (( FClassnameIs(pObject->pev, "func_door_rotating") || FClassnameIs(pObject->pev, "func_door") || FClassnameIs(pObject->pev, "func_button") ) && FBitSet(pObject->pev->spawnflags, 512)) // only for buttons
 				{
 					UTIL_TraceLine(pev->origin + pev->view_ofs, pObject->Center(), dont_ignore_monsters, edict(), &tr);
 					if (tr.flFraction < 1.0f && tr.pHit != pObject->edict())

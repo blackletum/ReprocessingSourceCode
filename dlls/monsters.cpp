@@ -95,9 +95,9 @@ TYPEDESCRIPTION CBaseMonster::m_SaveData[] =
 		DEFINE_FIELD(CBaseMonster, m_iScheduleIndex, FIELD_INTEGER),
 		DEFINE_FIELD(CBaseMonster, m_afConditions, FIELD_INTEGER),
 		//WayPoint_t			m_Route[ ROUTE_SIZE ];
-		//	DEFINE_FIELD( CBaseMonster, m_movementGoal, FIELD_INTEGER ),
+		DEFINE_FIELD( CBaseMonster, m_movementGoal, FIELD_INTEGER ),
 		//	DEFINE_FIELD( CBaseMonster, m_iRouteIndex, FIELD_INTEGER ),
-		//	DEFINE_FIELD( CBaseMonster, m_moveWaitTime, FIELD_FLOAT ),
+		DEFINE_FIELD( CBaseMonster, m_moveWaitTime, FIELD_FLOAT ),
 
 		DEFINE_FIELD(CBaseMonster, m_vecMoveGoal, FIELD_POSITION_VECTOR),
 		DEFINE_FIELD(CBaseMonster, m_movementActivity, FIELD_INTEGER),

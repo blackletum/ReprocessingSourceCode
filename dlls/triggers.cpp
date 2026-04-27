@@ -664,8 +664,23 @@ public:
 	void EXPORT ToggleUse(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value);
 	void InitTrigger();
 
+	bool Save(CSave& save) override;
+	bool Restore(CRestore& restore) override;
+
+	static TYPEDESCRIPTION m_SaveData[];
+
+	int m_szfilter;
+
 	int ObjectCaps() override { return CBaseToggle::ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
 };
+
+TYPEDESCRIPTION CBaseTrigger::m_SaveData[] =
+{
+	DEFINE_FIELD(CBaseTrigger, m_szfilter, FIELD_STRING),
+};
+
+IMPLEMENT_SAVERESTORE(CBaseTrigger, CBaseToggle);
+
 
 LINK_ENTITY_TO_CLASS(trigger, CBaseTrigger);
 
@@ -707,6 +722,11 @@ bool CBaseTrigger::KeyValue(KeyValueData* pkvd)
 	else if (FStrEq(pkvd->szKeyName, "damagetype"))
 	{
 		m_bitsDamageInflict = atoi(pkvd->szValue);
+		return true;
+	}
+	else if (FStrEq(pkvd->szKeyName, "filter"))
+	{
+		m_szfilter = ALLOC_STRING(pkvd->szValue);
 		return true;
 	}
 
@@ -1363,8 +1383,9 @@ void CBaseTrigger::MultiTouch(CBaseEntity* pOther)
 				return;         // not facing the right way
 		}
 #endif
-
-		ActivateMultiTrigger(pOther);
+		ALERT(at_console, "filter = %s\n", m_szfilter);
+		if ( !m_szfilter || STRING(m_szfilter)[0] == '\0' || !strcmp( STRING(m_szfilter), STRING(pevToucher->targetname) ) || !strcmp(STRING(m_szfilter), STRING(pevToucher->classname) ) )
+			ActivateMultiTrigger(pOther);
 	}
 }
 
