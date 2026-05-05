@@ -1331,7 +1331,10 @@ bool CModelCamera::KeyValue(KeyValueData* pkvd)
 void CModelCamera::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value)
 {
 	if (!ShouldToggle(useType, USE_OFF))
+	{
+		ALERT(at_console, "modelcamera - USE OFF\n");
 		return;
+	}
 
 	if (!pActivator || !pActivator->IsPlayer())
 	{
@@ -1339,6 +1342,7 @@ void CModelCamera::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE u
 
 		if (!pActivator)
 		{
+			ALERT(at_console, "No player for activate\n");
 			return;
 		}
 	}
@@ -1354,17 +1358,18 @@ void CModelCamera::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE u
 	// Nothing to look at!
 	if (m_hTarget == NULL)
 	{
+		ALERT(at_console, "Target not found\n");
 		return;
 	}
 
 	player->EnableControl(false);
-
+	pev->iuser1 = 15;
+	m_hTarget->pev->iuser1 = 14;
 	SET_VIEW(pActivator->edict(), edict());
 
-	SET_MODEL(ENT(pev), STRING(m_hTarget->pev->model));
+	SET_MODEL(ENT(pev), STRING(player->pev->model));
 
 	player->m_hViewEntity = this;
-
 	Vector vecArmPos, vecArmAng;
 	GET_ATTACHMENT(m_hTarget->edict(), 0, vecArmPos, vecArmAng);
 
@@ -1372,14 +1377,6 @@ void CModelCamera::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE u
 	pev->angles.x = -m_hTarget->pev->angles.x;
 	pev->angles.y = m_hTarget->pev->angles.y;
 	pev->angles.z = m_hTarget->pev->angles.z;
-	pev->iuser1 = 15;
-	m_hTarget->pev->iuser1 = 14;
-	//pev->velocity = m_hTarget->pev->velocity;
-	/*
-	ALERT(at_console, "%s - classname\n", STRING(edict()->v.classname));
-	ALERT(at_console, "%f, %f, %f - origin\n", pev->origin.x, pev->origin.y, pev->origin.z);
-	ALERT(at_console, "%f, %f, %f - target origin\n", m_hTarget->pev->origin.x, m_hTarget->pev->origin.y, m_hTarget->pev->origin.z);
-	*/
 
 	// follow the player down
 	SetThink(&CModelCamera::FollowTarget);
@@ -1394,6 +1391,7 @@ void CModelCamera::FollowTarget()
 
 	if (m_hTarget == NULL || m_flReturnTime < gpGlobals->time)
 	{
+		ALERT(at_console, "End of model camera\n");
 		auto player = static_cast<CBasePlayer*>(static_cast<CBaseEntity*>(m_hPlayer));
 
 		if (player->IsAlive())
@@ -1407,39 +1405,15 @@ void CModelCamera::FollowTarget()
 
 		SUB_UseTargets(this, USE_OFF, 0);
 		pev->avelocity = Vector(0, 0, 0);
+		m_hTarget->pev->iuser1 = 0;
 		m_hPlayer->pev->origin = m_hTarget->Center();
-		m_hPlayer->pev->angles = m_hTarget->pev->angles;
+		m_hPlayer->pev->angles = m_hTarget->pev->angles;// + m_hTarget->pev->view_ofs;
 		return;
 	}
 
-	//Vector vecArmPos, vecArmAng;
-	//GET_ATTACHMENT(m_hTarget->edict(), 0, vecArmPos, vecArmAng);
-
-	//UTIL_SetOrigin(pev, vecArmPos);
-	//MovetoTarget(vecArmPos);
-	/*
-	pev->angles.x = -m_hTarget->pev->angles.x;
-	pev->angles.y = m_hTarget->pev->angles.y;
-	pev->angles.z = m_hTarget->pev->angles.z;
-	*/
-
-	//pev->velocity = m_hTarget->pev->velocity;
 	pev->nextthink = gpGlobals->time;
-
-	/*
-	ALERT(at_console, "%f, %f, %f - origin\n", pev->origin.x, pev->origin.y, pev->origin.z);
-	ALERT(at_console, "%f, %f, %f - target origin\n", m_hTarget->pev->origin.x, m_hTarget->pev->origin.y, m_hTarget->pev->origin.z);
-	*/
 }
 
 void CModelCamera::MovetoTarget(Vector vecTarget)
 {
-	/*
-	if ((vecTarget - pev->origin).Length2D() >= 1)
-		m_vecIdeal = m_vecIdeal + (vecTarget - pev->origin).Normalize();
-	else
-		m_vecIdeal = vecTarget;
-	//pev->velocity = m_vecIdeal;
-	UTIL_SetOrigin(pev, m_vecIdeal);
-	*/
 }

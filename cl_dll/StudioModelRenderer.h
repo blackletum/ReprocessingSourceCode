@@ -245,6 +245,8 @@ public:
 	float (*m_pbonetransform)[MAXSTUDIOBONES][3][4];
 	float (*m_plighttransform)[MAXSTUDIOBONES][3][4];
 
+	float m_basetransform[MAXSTUDIOBONES][3][4];
+
 	// prikol
 	virtual int StudioCheckPar(void);
 

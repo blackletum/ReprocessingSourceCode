@@ -1059,6 +1059,7 @@ void CStudioModelRenderer::StudioSetupBones()
 
 		if (parent == -1)
 		{
+			MatrixCopy(bonematrix, m_basetransform[i]);
 			if (0 != IEngineStudio.IsHardware())
 			{
 				ConcatTransforms((*m_protationmatrix), bonematrix, (*m_pbonetransform)[i]);
@@ -1078,6 +1079,8 @@ void CStudioModelRenderer::StudioSetupBones()
 		}
 		else if (parent >= 0 && parent < m_pStudioHeader->numbones)
 		{
+			ConcatTransforms(m_basetransform[parent], bonematrix, m_basetransform[i]);
+
 			ConcatTransforms((*m_pbonetransform)[parent], bonematrix, (*m_pbonetransform)[i]);
 			ConcatTransforms((*m_plighttransform)[parent], bonematrix, (*m_plighttransform)[i]);
 		}
@@ -1699,6 +1702,7 @@ bool CStudioModelRenderer::StudioDrawPlayer(int flags, entity_state_t* pplayer)
 
 extern Vector gCutsceneCameraOrg;
 extern Vector gCutsceneCameraAng;
+extern void MatrixAngles(const float matrix[3][4], float *angles);
 /*
 ====================
 StudioCalcAttachments
@@ -1716,25 +1720,49 @@ void CStudioModelRenderer::StudioCalcAttachments()
 		exit(-1);
 	}
 
-	Vector bonepos;
-	float x, y, z;
-
 	// calculate attachment points
 	pattachment = (mstudioattachment_t*)((byte*)m_pStudioHeader + m_pStudioHeader->attachmentindex);
 	for (i = 0; i < m_pStudioHeader->numattachments; i++)
 	{
 		VectorTransform(pattachment[i].org, (*m_plighttransform)[pattachment[i].bone], m_pCurrentEntity->attachment[i]);
-		if (m_pCurrentEntity->curstate.iuser1 == 14);
+		if (!stricmp (m_pCurrentEntity->model->name , "models/SgtWest_cutscenes.mdl") && m_pCurrentEntity->curstate.iuser1 != 15)
 		{
-			MatrixAngles((*m_plighttransform)[pattachment[i].bone], bonepos);
-			x = bonepos[0];
-			y = bonepos[1];
-			z = bonepos[2];
-			bonepos[0] = x + 90;
-			bonepos[1] = z + 90;
-			bonepos[2] = y;
-			VectorCopy(bonepos, gCutsceneCameraAng);
+			Vector resultang;
+			/*
+			float boneang[3];
+			MatrixAngles((*m_plighttransform)[pattachment[i].bone], boneang);
+			resultang[0] = boneang[0];
+			resultang[1] = boneang[1];
+			resultang[2] = boneang[2];
+			*/
+			Vector forward, up;
+
+			// Often attachment forward is Y axis
+			forward[0] = (*m_plighttransform)[pattachment[i].bone][0][1];
+			forward[1] = (*m_plighttransform)[pattachment[i].bone][1][1];
+			forward[2] = (*m_plighttransform)[pattachment[i].bone][2][1];
+			up[2] = (*m_plighttransform)[pattachment[i].bone][2][2];
+
+			float xyDist = sqrtf(forward[0] * forward[0] + forward[1] * forward[1]);
+
+			VectorAngles(forward, resultang);
+			// GoldSrc camera correction
+			resultang[0] = -resultang[0];
+
+			// Normalize
+			if (resultang[0] > 180)
+				resultang[0] -= 360.0;
+			else if (resultang[0] < -180)
+				resultang[0] += 360;
+
+			if (resultang[1] > 180)
+				resultang[1] -= 360.0;
+			else if (resultang[1] < -180)
+				resultang[1] += 360;
+
+			VectorCopy(resultang, gCutsceneCameraAng);
 			VectorCopy(m_pCurrentEntity->attachment[i], gCutsceneCameraOrg);
+			//gEngfuncs.Con_Printf("%f, %f, %f = angles\n", resultang[0], resultang[1], resultang[2]);
 		}
 	}
 }

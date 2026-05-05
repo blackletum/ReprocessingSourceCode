@@ -407,6 +407,11 @@ void CGameRules::RefreshSkillData()
 	gSkillData.healthkitCapacity = GetSkillCvar("sk_healthkit");
 	gSkillData.scientistHeal = GetSkillCvar("sk_scientist_heal");
 
+	// ARMOR
+	gSkillData.armorCapacity = GetSkillCvar("sk_armor");
+	gSkillData.oldArmorCapacity = GetSkillCvar("sk_oldarmor");
+	gSkillData.helmetCapacity = GetSkillCvar("sk_helmet");
+
 	// monster damage adj
 	gSkillData.monHead = GetSkillCvar("sk_monster_head");
 	gSkillData.monChest = GetSkillCvar("sk_monster_chest");

@@ -505,6 +505,20 @@ cvar_t sk_scientist_heal2 = {"sk_scientist_heal2", "0"};
 cvar_t sk_scientist_heal3 = {"sk_scientist_heal3", "0"};
 
 
+// Armor
+cvar_t sk_armor1 = { "sk_armor1", "0" };
+cvar_t sk_armor2 = { "sk_armor2", "0" };
+cvar_t sk_armor3 = { "sk_armor3", "0" };
+
+cvar_t sk_oldarmor1 = { "sk_oldarmor1", "0" };
+cvar_t sk_oldarmor2 = { "sk_oldarmor2", "0" };
+cvar_t sk_oldarmor3 = { "sk_oldarmor3", "0" };
+
+cvar_t sk_helmet1 = { "sk_helmet1", "0" };
+cvar_t sk_helmet2 = { "sk_helmet2", "0" };
+cvar_t sk_helmet3 = { "sk_helmet3", "0" };
+
+
 // monster damage adjusters
 cvar_t sk_monster_head1 = {"sk_monster_head1", "2"};
 cvar_t sk_monster_head2 = {"sk_monster_head2", "2"};
@@ -1056,6 +1070,19 @@ void GameDLLInit()
 	CVAR_REGISTER(&sk_scientist_heal1);
 	CVAR_REGISTER(&sk_scientist_heal2);
 	CVAR_REGISTER(&sk_scientist_heal3);
+
+	// ARMOR DISTRIBUTION
+	CVAR_REGISTER(&sk_armor1);
+	CVAR_REGISTER(&sk_armor2);
+	CVAR_REGISTER(&sk_armor3);
+
+	CVAR_REGISTER(&sk_oldarmor1);
+	CVAR_REGISTER(&sk_oldarmor2);
+	CVAR_REGISTER(&sk_oldarmor3);
+
+	CVAR_REGISTER(&sk_helmet1);
+	CVAR_REGISTER(&sk_helmet2);
+	CVAR_REGISTER(&sk_helmet3);
 
 	// monster damage adjusters
 	CVAR_REGISTER(&sk_monster_head1);

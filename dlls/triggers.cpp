@@ -1383,7 +1383,7 @@ void CBaseTrigger::MultiTouch(CBaseEntity* pOther)
 				return;         // not facing the right way
 		}
 #endif
-		ALERT(at_console, "filter = %s\n", m_szfilter);
+		//ALERT(at_console, "filter = %s\n", m_szfilter);
 		if ( !m_szfilter || STRING(m_szfilter)[0] == '\0' || !strcmp( STRING(m_szfilter), STRING(pevToucher->targetname) ) || !strcmp(STRING(m_szfilter), STRING(pevToucher->classname) ) )
 			ActivateMultiTrigger(pOther);
 	}

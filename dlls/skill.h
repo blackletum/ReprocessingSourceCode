@@ -144,6 +144,11 @@ struct skilldata_t
 	float healthkitCapacity;
 	float scientistHeal;
 
+	// health/suit charge
+	float armorCapacity;
+	float oldArmorCapacity;
+	float helmetCapacity;
+
 	// monster damage adj
 	float monHead;
 	float monChest;

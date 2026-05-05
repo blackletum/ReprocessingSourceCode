@@ -48,11 +48,11 @@ void SpawnKingpinEffects(void)
 		0,
 		0,
 		11);
-
 	if (g_engfuncs.pfnRandomLong(0, 100) == 0)
 	{
 		SpawnFakeExpl();
 	}
+	/*
 	if (g_engfuncs.pfnRandomLong(0, 500) == 1)
 	{
 		SpawnFakeGrenadeTE();
@@ -65,6 +65,7 @@ void SpawnKingpinEffects(void)
 	{
 		SpawnFakeMonsterTE("models/kingpin.mdl");
 	}
+	*/
 }
 
 Vector RandomVectorForFake(float min, float max)

@@ -1110,6 +1110,7 @@ void CTentacleMaw::Killed(entvars_t *pevAttacker, int iGib)
 	SetThink(&CTentacleMaw::DieThink);
 	pev->nextthink = gpGlobals->time + 0.1;
 	pev->deadflag = DEAD_DEAD;
+	pev->takedamage = DAMAGE_NO;
 	CBaseMonster::FCheckAITrigger();
 	SetActivity(ACT_DIESIMPLE);
 }

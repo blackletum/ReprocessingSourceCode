@@ -369,7 +369,7 @@ class CItemHelmet : public CItem
 			int pct;
 			char szcharge[64];
 
-			pPlayer->pev->armorvalue += 40;
+			pPlayer->pev->armorvalue += gSkillData.helmetCapacity;
 			pPlayer->pev->armorvalue = V_min(pPlayer->pev->armorvalue, MAX_NORMAL_BATTERY);
 
 			EMIT_SOUND(pPlayer->edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM);
@@ -420,7 +420,7 @@ class CItemArmorVest : public CItem
 			int pct;
 			char szcharge[64];
 
-			pPlayer->pev->armorvalue += 60;
+			pPlayer->pev->armorvalue += gSkillData.armorCapacity;
 			pPlayer->pev->armorvalue = V_min(pPlayer->pev->armorvalue, MAX_NORMAL_BATTERY);
 
 			EMIT_SOUND(pPlayer->edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM);
@@ -471,7 +471,7 @@ class CItemLightArmor : public CItem
 			int pct;
 			char szcharge[64];
 
-			pPlayer->pev->armorvalue += 45;
+			pPlayer->pev->armorvalue += gSkillData.oldArmorCapacity;
 			pPlayer->pev->armorvalue = V_min(pPlayer->pev->armorvalue, MAX_NORMAL_BATTERY);
 
 			EMIT_SOUND(pPlayer->edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM);

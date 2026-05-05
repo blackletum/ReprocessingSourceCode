@@ -14,6 +14,7 @@
 #include "nodes.h"
 #include "explode.h"
 #include "decals.h"
+#include "player.h"
 
 #define N_SCALE 1
 #define N_SPHERES 20
@@ -309,6 +310,11 @@ void CPinguin::Killed(entvars_t* pevAttacker, int iGib)
 	pev->health = 0;
 	pev->solid = SOLID_NOT;
 	pev->takedamage = DAMAGE_NO;
+
+	auto player = (CBasePlayer*)UTIL_GetLocalPlayer();
+	player->m_bitsDamageType &= DMG_NERVEGAS;
+	player->m_rgbTimeBasedDamage[itbd_NerveGas] = 0;
+	player->TakeHealth(0, DMG_GENERIC);
 	
 	CBaseMonster::Killed(pevAttacker, iGib);
 }
@@ -1588,6 +1594,10 @@ void CKinghHVR::TeleportThink()
 
 		if (m_hEnemy->IsPlayer())
 		{
+			auto player = static_cast<CBasePlayer*>(static_cast<CBaseEntity*>(m_hTargetEnt));
+			player->m_bitsDamageType &= DMG_NERVEGAS;
+			player->m_rgbTimeBasedDamage[itbd_NerveGas] = 0;
+			player->TakeHealth(0, DMG_GENERIC);
 			if (m_hTargetEnt != NULL)
 			{
 				m_hTargetEnt->Use(m_hEnemy, m_hEnemy, USE_ON, 1.0);
