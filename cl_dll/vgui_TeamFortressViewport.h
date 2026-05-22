@@ -594,7 +594,7 @@ public:
 	bool GetAllowSpectators() { return m_iAllowSpectators; };
 
 	// Message Handlers
-	bool MsgFunc_Caption(const char *pszName, int iSize, void *pbuf );
+	//bool MsgFunc_Caption(const char *pszName, int iSize, void *pbuf );
 	bool MsgFunc_ValClass(const char *pszName, int iSize, void *pbuf );
 	bool MsgFunc_TeamNames(const char *pszName, int iSize, void *pbuf );
 	bool MsgFunc_Feign(const char *pszName, int iSize, void *pbuf );

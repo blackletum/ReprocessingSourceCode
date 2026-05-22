@@ -266,9 +266,8 @@ int __MsgFunc_ScoreInfo(const char* pszName, int iSize, void* pbuf)
 
 int __MsgFunc_Caption(const char* pszName, int iSize, void* pbuf)
 {
-	if (gViewPort)
-		return static_cast<int>(gViewPort->MsgFunc_Caption(pszName, iSize, pbuf));
-	return 0;
+	gHUD.m_Message.MsgFunc_Caption(pszName, iSize, pbuf);
+	return 1;
 }
 
 int __MsgFunc_TeamScore(const char* pszName, int iSize, void* pbuf)

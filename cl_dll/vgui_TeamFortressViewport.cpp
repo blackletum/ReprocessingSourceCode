@@ -2069,6 +2069,7 @@ bool TeamFortressViewport::MsgFunc_ScoreInfo(const char* pszName, int iSize, voi
 // Message handler for Caption message
 // accepts one value:
 //		string: text
+/*
 bool TeamFortressViewport::MsgFunc_Caption(const char* pszName, int iSize, void* pbuf)
 {
 	BEGIN_READ(pbuf, iSize);
@@ -2082,6 +2083,7 @@ bool TeamFortressViewport::MsgFunc_Caption(const char* pszName, int iSize, void*
 
 	return true;
 }
+*/
 
 // Message handler for TeamScore message
 // accepts three values:

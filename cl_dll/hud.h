@@ -418,6 +418,7 @@ public:
 	bool VidInit() override;
 	bool Draw(float flTime) override;
 	bool MsgFunc_HudText(const char* pszName, int iSize, void* pbuf);
+	bool MsgFunc_Caption(const char* pszName, int iSize, void* pbuf);
 	bool MsgFunc_HudTextPro(const char* pszName, int iSize, void* pbuf);
 	bool MsgFunc_GameTitle(const char* pszName, int iSize, void* pbuf);
 
@@ -426,11 +427,14 @@ public:
 	int YPosition(float y, int height);
 
 	void MessageAdd(const char* pName, float time);
+	void SortSubs(void);
+	void SubtAdd(const char* pName, float time);
 	void MessageAdd(client_textmessage_t* newMessage);
 	void MessageDrawScan(client_textmessage_t* pMessage, float time);
 	void MessageScanStart();
 	void MessageScanNextChar();
 	void Reset() override;
+	void SetColorParams(bool consoleFont);
 
 private:
 	client_textmessage_t* m_pMessages[maxHUDMessages];
