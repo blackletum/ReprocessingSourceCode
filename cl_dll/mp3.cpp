@@ -103,13 +103,16 @@ void CMP3::PauseMP3(bool pause)
 
 int CMP3::PlayMP3(const char *pszSong)
 {
-	if (!strcmp(pszSong, m_szSong))
+	if (m_iIsPlaying && !strcmp(pszSong, m_szSong))
 	{
 		// already playing
 		return 1;
 	}
 
-	sprintf(m_szSong, "%s/media/%s", gEngfuncs.pfnGetGameDirectory(), pszSong);
+	sprintf(m_szSong, "%s", pszSong);
+
+	char song[256];
+	sprintf(song, "%s/media/%s", gEngfuncs.pfnGetGameDirectory(), m_szSong);
 
 	if (m_iIsPlaying)
 	{	// sound system is already initialized
@@ -126,11 +129,11 @@ int CMP3::PlayMP3(const char *pszSong)
 	// leave out the FSOUND_LOOP_NORMAL to play the mp3 only once
 //	gEngfuncs.Con_Printf("Using fmod.dll version %f\n",VER());
 	if (SOF) {
-		m_Stream = SOF(m_szSong, FSOUND_NORMAL, 1);	//AJH old fmod load call
+		m_Stream = SOF(song, FSOUND_NORMAL, 1);	//AJH old fmod load call
 	}
 	else if (SO) {
 		//	gEngfuncs.Con_Printf("USING FSOUND_Stream_Open\n");
-		m_Stream = SO(m_szSong, FSOUND_NORMAL, 0, 0);	//AJH new fmod uses more parameters
+		m_Stream = SO(song, FSOUND_NORMAL, 0, 0);	//AJH new fmod uses more parameters
 	}
 	float vol = CVAR_GET_FLOAT("mp3volume");
 	//gEngfuncs.Con_Printf("mp3volume =  %f\n", vol);
@@ -144,7 +147,7 @@ int CMP3::PlayMP3(const char *pszSong)
 	else {
 
 		m_iIsPlaying = 0;
-		gEngfuncs.Con_Printf("Error: Could not load %s\n", m_szSong);
+		gEngfuncs.Con_Printf("Error: Could not load %s\n", song);
 		return 0;
 
 	}
