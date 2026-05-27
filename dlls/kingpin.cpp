@@ -603,6 +603,10 @@ void CPinguin::SonicAttack(void)
 						pEntity->pev->flags &= ~FL_ONGROUND;
 						pEntity->pev->velocity.z = 350;
 					}
+					else
+					{
+						pEntity->TakeDamage(pev, pev, pEntity->pev->health, DMG_NEVERGIB);
+					}
 				}
 			}
 		}

@@ -49,6 +49,7 @@ public:
 	float	fMp3time;
 	int		m_iIsPlaying;
 	bool	m_bPaused;
+	char	m_szSong[256];
 };
 
 extern CMP3 gMP3;
