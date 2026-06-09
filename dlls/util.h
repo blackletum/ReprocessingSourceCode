@@ -609,3 +609,6 @@ struct CallOnDestroy
 		Function();
 	}
 };
+
+// very evil magic
+void UTILL_KingpinCheaterDialogue(void);

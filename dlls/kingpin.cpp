@@ -306,15 +306,20 @@ void CPinguin::SetYawSpeed(void)
 
 void CPinguin::Killed(entvars_t* pevAttacker, int iGib)
 {
+	if (m_iLevel < 4)
+		UTILL_KingpinCheaterDialogue();
 	iGib = GIB_NEVER;
 	pev->health = 0;
 	pev->solid = SOLID_NOT;
 	pev->takedamage = DAMAGE_NO;
 
 	auto player = (CBasePlayer*)UTIL_GetLocalPlayer();
-	player->m_bitsDamageType &= DMG_NERVEGAS;
-	player->m_rgbTimeBasedDamage[itbd_NerveGas] = 0;
-	player->TakeHealth(0, DMG_GENERIC);
+	if (player)
+	{
+		player->m_bitsDamageType &= DMG_NERVEGAS;
+		player->m_rgbTimeBasedDamage[itbd_NerveGas] = 0;
+		player->TakeHealth(0, DMG_GENERIC);
+	}
 	
 	CBaseMonster::Killed(pevAttacker, iGib);
 }

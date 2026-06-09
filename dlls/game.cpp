@@ -473,6 +473,10 @@ cvar_t sk_9mmAR_bullet1 = {"sk_9mmAR_bullet1", "0"};
 cvar_t sk_9mmAR_bullet2 = {"sk_9mmAR_bullet2", "0"};
 cvar_t sk_9mmAR_bullet3 = {"sk_9mmAR_bullet3", "0"};
 
+cvar_t sk_m16_bullet1 = { "sk_m16_bullet1", "0" };
+cvar_t sk_m16_bullet2 = { "sk_m16_bullet2", "0" };
+cvar_t sk_m16_bullet3 = { "sk_m16_bullet3", "0" };
+
 cvar_t sk_9mm_bullet1 = {"sk_9mm_bullet1", "0"};
 cvar_t sk_9mm_bullet2 = {"sk_9mm_bullet2", "0"};
 cvar_t sk_9mm_bullet3 = {"sk_9mm_bullet3", "0"};
@@ -1035,6 +1039,10 @@ void GameDLLInit()
 	CVAR_REGISTER(&sk_12mm_bullet1); // {"sk_12mm_bullet1","0"};
 	CVAR_REGISTER(&sk_12mm_bullet2); // {"sk_12mm_bullet2","0"};
 	CVAR_REGISTER(&sk_12mm_bullet3); // {"sk_12mm_bullet3","0"};
+
+	CVAR_REGISTER(&sk_m16_bullet1); // {"sk_m16_bullet1","0"};
+	CVAR_REGISTER(&sk_m16_bullet2); // {"sk_m16_bullet1","0"};
+	CVAR_REGISTER(&sk_m16_bullet3); // {"sk_m16_bullet1","0"};
 
 	CVAR_REGISTER(&sk_9mmAR_bullet1); // {"sk_9mm_bullet1","0"};
 	CVAR_REGISTER(&sk_9mmAR_bullet2); // {"sk_9mm_bullet1","0"};

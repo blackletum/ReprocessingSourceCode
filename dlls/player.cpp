@@ -5004,6 +5004,7 @@ LINK_ENTITY_TO_CLASS(player_weaponstrip, CStripWeapons);
 void CStripWeapons::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value)
 {
 	CBasePlayer* pPlayer = NULL;
+	bool suit = FBitSet(pev->spawnflags, 1);
 
 	if (pActivator && pActivator->IsPlayer())
 	{
@@ -5015,7 +5016,7 @@ void CStripWeapons::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE 
 	}
 
 	if (pPlayer)
-		pPlayer->RemoveAllItems(false);
+		pPlayer->RemoveAllItems(suit);
 }
 
 class CKillWeapon : public CPointEntity
@@ -5285,3 +5286,31 @@ void CInfoIntermission::Think()
 }
 
 LINK_ENTITY_TO_CLASS(info_intermission, CInfoIntermission);
+
+
+class CChangeSpeed : public CPointEntity
+{
+public:
+	void Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value) override;
+};
+
+LINK_ENTITY_TO_CLASS(player_changespeed, CChangeSpeed);
+
+void CChangeSpeed::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value)
+{
+	CBasePlayer* pPlayer = NULL;
+
+	if (pActivator && pActivator->IsPlayer())
+	{
+		pPlayer = (CBasePlayer*)pActivator;
+	}
+	else if (!g_pGameRules->IsDeathmatch())
+	{
+		pPlayer = (CBasePlayer*)UTIL_GetLocalPlayer();
+	}
+
+	if (pPlayer)
+	{
+		g_engfuncs.pfnSetClientMaxspeed(pPlayer->edict(), pev->health);
+	}
+}

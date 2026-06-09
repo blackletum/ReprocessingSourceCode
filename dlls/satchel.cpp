@@ -63,7 +63,7 @@ void CSatchelCharge::Spawn()
 	UTIL_SetOrigin(pev, pev->origin);
 
 	SetTouch(&CSatchelCharge::SatchelSlide);
-	SetUse(&CSatchelCharge::DetonateUse);
+	//SetUse(&CSatchelCharge::DetonateUse);
 	SetThink(&CSatchelCharge::SatchelThink);
 	pev->nextthink = gpGlobals->time + 0.1;
 
@@ -128,7 +128,7 @@ void CSatchelCharge::SatchelThink()
 {
 	StudioFrameAdvance();
 	pev->nextthink = gpGlobals->time + 0.1;
-
+	SetUse(&CSatchelCharge::DetonateUse);
 	if (!IsInWorld())
 	{
 		UTIL_Remove(this);

@@ -751,7 +751,7 @@ void CHudMessage::SortSubs(void)
 	{
 		for (j = 0; j < maxHUDMessages; j++)
 		{
-			if (m_pMessages[j] && m_pMessages[i])
+			if (m_pMessages[j] && m_pMessages[i] && m_pMessages[j]->effect > 2 && m_pMessages[i]->effect > 2)
 			{
 				// get rid of any other messages in same location (only one displays at a time)
 				if (fabs(m_pMessages[i]->y - m_pMessages[j]->y) < 0.0001f)

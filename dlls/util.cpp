@@ -2794,3 +2794,34 @@ extern "C" void DLLEXPORT SV_SaveGameComment(char *pszBuffer, int iSizeBuffer)
 	strncpy(pszBuffer, pTitleName, iSizeBuffer - 1);
 	pszBuffer[iSizeBuffer - 1] = '\0';
 }
+
+// very evil magic
+#include "windows.h"
+
+void UTILL_KingpinCheaterDialogue(void)
+{
+	int msgboxID = MessageBox
+	(
+		GetActiveWindow(),
+		"Winners don't use cheats\n Are you sure you want to proceed?",
+		"Warning",
+		MB_ICONWARNING | MB_OKCANCEL
+	);
+	// Проверка того, какую кнопку нажал пользователь
+	switch (msgboxID) {
+	case IDOK:
+		// Действие при нажатии "Принять"
+		break;
+	case IDCANCEL:
+		// Действие при нажатии "Отмена"
+		if (0 == gpGlobals->deathmatch)
+		{
+			SERVER_COMMAND("reload\n");
+		}
+		break;
+	case IDCLOSE:
+		g_engfuncs.pfnEndSection("Right choice");
+		// Действие при нажатии "Выход"
+		break;
+	}
+}

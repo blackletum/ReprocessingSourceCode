@@ -1191,10 +1191,15 @@ void V_CalcNormalRefdef(struct ref_params_s* pparams)
 				gCutsceneCameraOrg = g_vecZero;
 				gCutsceneCameraAng = g_vecZero;
 			}
-
+			//gEngfuncs.Con_Printf("result = %f, %f, %f = angles\n", gCutsceneCameraAng[0], gCutsceneCameraAng[1], gCutsceneCameraAng[2]);
 			// Store off overridden viewangles
 			v_angles = pparams->viewangles;
 		}
+	}
+	else
+	{
+		gCutsceneCameraOrg = g_vecZero;
+		gCutsceneCameraAng = g_vecZero;
 	}
 
 	lasttime = pparams->time;
